@@ -21,6 +21,10 @@ for k = k_set
     class_rate = [class_rate corr_num/data_num];
 end
 disp(class_rate);
+plot(k_set, class_rate, 'b*-');
+legend('validation', 'Location', 'northwest');
+xlabel('k');
+ylabel('classification rate');
 
 %% Test
 kk = 5;
@@ -36,7 +40,8 @@ for kk = kk_set
 end
 disp(corr_rate);
 
-%% Plot
+%% Summary
+figure();
 plot(k_set, class_rate, 'b*-', kk_set, corr_rate, 'ro-');
 legend('validation','test', 'Location', 'northwest');
 xlabel('k');
