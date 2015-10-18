@@ -8,14 +8,14 @@ load mnist_valid;
 
 %% TODO: Initialize hyperparameters.
 % Learning rate
-hyperparameters.learning_rate = ...
+hyperparameters.learning_rate = 1;
 % Weight regularization parameter
 hyperparameters.weight_regularization = ...
 % Number of iterations
 hyperparameters.num_iterations = ...
 % Logistics regression weights
 % TODO: Set random weights.
-weights = ...
+weights = rand(M+1, 1);
 
 
 %% Verify that your logistic function produces the right gradient, diff should be very close to 0

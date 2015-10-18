@@ -19,5 +19,13 @@ function [f, df, y] = logistic(weights, data, targets, hyperparameters)
 %
 
 %TODO: finish this function
+[N M] = size(data);
+
+% z = w^T * x + w_0
+z = data * weights(1:M) + weights(M+1);
+% y(x) = sigma(z)
+y = sigmoid(z);
+
+[f, frac_correct] = evaluate(targets, y);
 
 end
