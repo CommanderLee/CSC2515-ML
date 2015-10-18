@@ -13,5 +13,16 @@ function [y] = logistic_predict(weights, data)
 %        y:          :N x 1 vector of probabilities. This is the output of the classifier.
 
 %TODO: finish this function
+%% Get y and z
+[N M] = size(data);
+
+% z = w^T * x + w_0
+w = weights(1:M);
+b = weights(M+1);
+
+z = data * w + b;
+
+% y(x) = sigma(z)
+y = sigmoid(z);
 
 end
