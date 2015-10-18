@@ -12,8 +12,8 @@ function [ce, frac_correct] = evaluate(targets, y)
 % z = w^T * x + w_0
 % y(x) = sigma(z)  => e^{-z} = 1/y - 1
 exp_Z = 1.0 ./ y - 1;
-% ce = E(w,b) = \sum{ [(y^(n)-1]*ln(exp_Z) + ln(1 + exp_Z) }
-ce = sum((targets - 1) .* log(exp_Z) + log(1 + exp_Z));
+% ce = E(w,b) = \sum{ [(targets^(n)-1]*ln(exp_Z) - ln(y) }
+ce = sum((targets - 1) .* log(exp_Z) - log(y));
 
 y_bool = y > 0.5;
 num_correct = sum(y_bool == targets);

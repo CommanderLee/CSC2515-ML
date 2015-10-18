@@ -10,13 +10,13 @@ load mnist_valid;
 % Learning rate
 hyperparameters.learning_rate = 1;
 % Weight regularization parameter
-hyperparameters.weight_regularization = ...
+hyperparameters.weight_regularization = 1;
 % Number of iterations
-hyperparameters.num_iterations = ...
+hyperparameters.num_iterations = 100;
 % Logistics regression weights
 % TODO: Set random weights.
+[N M] = size(train_inputs);
 weights = rand(M+1, 1);
-
 
 %% Verify that your logistic function produces the right gradient, diff should be very close to 0
 % this creates small random data with 20 examples and 10 dimensions and checks the gradient on
@@ -30,8 +30,8 @@ diff = checkgrad('logistic', ...
                  rand(nexamples, 1), ...            % targets
                  hyperparameters)                   % other hyperparameters
 
-N = size(mnist_train, 0);
 %% Begin learning with gradient descent.
+% N = size(mnist_train, 0);
 for t = 1:hyperparameters.num_iterations
 
 	%% TODO: You will need to modify this loop to create plots etc.

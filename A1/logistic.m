@@ -19,6 +19,7 @@ function [f, df, y] = logistic(weights, data, targets, hyperparameters)
 %
 
 %TODO: finish this function
+%% Get y and z
 [N M] = size(data);
 
 % z = w^T * x + w_0
@@ -26,6 +27,13 @@ z = data * weights(1:M) + weights(M+1);
 % y(x) = sigma(z)
 y = sigmoid(z);
 
+%% Get f, df
 [f, frac_correct] = evaluate(targets, y);
+% f = sum((targets - 1) .* (-z) - log(y));
+
+% dE(w,b)/dw_i = /sum_n { x_i^(n) * (-targets^(n)-y^(n)) }
+dE_dwi = data' * (-targets - y);
+dE_db = sum(-targets - y);
+df = [dE_dwi; dE_db];
 
 end
