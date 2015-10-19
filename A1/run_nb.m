@@ -6,4 +6,6 @@ load mnist_train;
 load mnist_test;
 
 % Add your code here (it should be less than 10 lines)
-
+[log_prior, class_mean, class_var] = train_nb(train_inputs, train_targets);
+[prediction, accuracy] = test_nb(test_inputs, test_targets, log_prior, class_mean, class_var);
+fprintf('accuracy:%f\n', accuracy);

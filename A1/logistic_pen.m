@@ -27,13 +27,13 @@ w = weights(1:M);
 b = weights(M+1);
 
 z = data * w + b;
+
 % y(x) = sigma(z)
 y = sigmoid(z);
 
 %% Get f, df
 [f, frac_correct] = evaluate(targets, y);
 f = f + w' * w * hyperparameters.weight_regularization / 2;
-% f = sum((targets - 1) .* (-z) - log(y));
 
 % dE(w,b)/dw_i = /sum_n { x_i^(n) * (-targets^(n)-y^(n)) }
 dE_dwi = data' * (y - targets) + w * hyperparameters.weight_regularization;
