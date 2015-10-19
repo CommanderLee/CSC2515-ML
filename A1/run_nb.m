@@ -13,3 +13,12 @@ load mnist_test;
 fprintf('accuracy: train(%f), test(%f)\n', accuracy_train, accuracy_test);
 
 plot_digits([class_mean;class_var]);
+
+load mnist_train_small;
+[log_prior_s, class_mean_s, class_var_s] = train_nb(train_inputs_small, train_targets_small);
+
+[prediction_train_s, accuracy_train_s] = test_nb(train_inputs_small, train_targets_small, log_prior_s, class_mean_s, class_var_s);
+[prediction_test_s, accuracy_test_s] = test_nb(test_inputs, test_targets, log_prior_s, class_mean_s, class_var_s);
+fprintf('accuracy-small: train(%f), test(%f)\n', accuracy_train_s, accuracy_test_s);
+
+plot_digits([class_mean_s;class_var_s]);
