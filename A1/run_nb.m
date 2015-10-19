@@ -7,5 +7,9 @@ load mnist_test;
 
 % Add your code here (it should be less than 10 lines)
 [log_prior, class_mean, class_var] = train_nb(train_inputs, train_targets);
-[prediction, accuracy] = test_nb(test_inputs, test_targets, log_prior, class_mean, class_var);
-fprintf('accuracy:%f\n', accuracy);
+
+[prediction_train, accuracy_train] = test_nb(train_inputs, train_targets, log_prior, class_mean, class_var);
+[prediction_test, accuracy_test] = test_nb(test_inputs, test_targets, log_prior, class_mean, class_var);
+fprintf('accuracy: train(%f), test(%f)\n', accuracy_train, accuracy_test);
+
+plot_digits([class_mean;class_var]);

@@ -11,7 +11,7 @@ load mnist_valid;
 % Learning rate
 hyperparameters.learning_rate = 0.5;
 % Weight regularization parameter
-hyperparameters.weight_regularization = 0.001;
+hyperparameters.weight_regularization = 0.5;
 % Number of iterations
 hyperparameters.num_iterations = 500;
 % Logistics regression weights
@@ -37,7 +37,7 @@ weight_reg_set = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0];
 hyperNum = size(weight_reg_set, 2);
 results = zeros(hyperNum, 5);
 
-testing = 0;
+testing = 1;
 if testing
    hyperNum = 1; 
 end
@@ -65,12 +65,12 @@ for hyperID = 1:hyperNum
 
             % Find the negative log likelihood and derivative w.r.t. weights.
             [f, df, predictions] = logistic_pen(weights, ...
-                                            train_inputs_small, ...
-                                            train_targets_small, ...                                     
+                                            train_inputs, ...
+                                            train_targets, ...                                     
                                             hyperparameters);
 
-%             [cross_entropy_train, frac_correct_train] = evaluate(train_targets, predictions);
-            [cross_entropy_train, frac_correct_train] = evaluate(train_targets_small, predictions);
+            [cross_entropy_train, frac_correct_train] = evaluate(train_targets, predictions);
+%             [cross_entropy_train, frac_correct_train] = evaluate(train_targets_small, predictions);
             
             % Find the fraction of correctly classified validation examples.
             [temp, temp2, frac_correct_valid] = logistic_pen(weights, ...
@@ -127,21 +127,21 @@ disp(results);
 %% Plot train & valid
 x = 1:hyperNum;
 
-figure(3);
-plot(x, results(:,2), 'r.-', x, results(:,4), 'bo:');
-xlabel('\lambda = 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0');
-ylabel('cross entropy');
-legend('train','validation', -1);
+% figure(3);
+% plot(x, results(:,2), 'r.-', x, results(:,4), 'bo:');
+% xlabel('\lambda = 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0');
+% ylabel('cross entropy');
+% legend('train','validation', -1);
 % title('mnist\_train: cross entropy');
-title('mnist\_train\_small: cross entropy');
-
-figure(4);
-plot(x, results(:,3), 'r.-', x, results(:,5), 'bo:');
-xlabel('\lambda = 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0');
-ylabel('classification error');
-legend('train','validation', -1);
+% % title('mnist\_train\_small: cross entropy');
+% 
+% figure(4);
+% plot(x, results(:,3), 'r.-', x, results(:,5), 'bo:');
+% xlabel('\lambda = 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0');
+% ylabel('classification error');
+% legend('train','validation', -1);
 % title('mnist\_train: classification error');
-title('mnist\_train\_small: classification error');
+% % title('mnist\_train\_small: classification error');
 
 %% Plot test
 if testing
