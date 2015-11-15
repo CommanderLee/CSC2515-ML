@@ -195,7 +195,7 @@ However, the performance for different values of $k$ in the validation is not si
 
 \subsection{Logistic Regression}
 
-I implemented a vectorized Matlab script to make it faster. The return value of \texttt{checkgrad} is approximately $10^{-9}$, which is satisfying. I initialized the weights using $0.1 * \texttt{randn}$, a psuedorandom scalar drawn from the standard normal distribution. \\
+I implemented a vectorized Matlab script to make it faster. The return value of \texttt{checkgrad} is approximately $10^{-9}$, which is satisfying. I initialized the weights using $0.5 * \texttt{randn}$, a psuedorandom scalar drawn from the standard normal distribution. \\
 
 \begin{table}[htbp]
 \centering
@@ -204,15 +204,15 @@ I implemented a vectorized Matlab script to make it faster. The return value of 
 \ & \ & \ & train & \ & validation & \\
 id & $learning\_rate$ & $num\_iterations$ & cross\_entropy & error & cross\_entropy & error \\
 \midrule
-1 & 0.25 & 100 & 11.06  & 0 & 10.42 & 0.114\\
-2 & 0.25 & 300 & 4.439  & 0 & 9.650 & 0.116\\
-3 & 0.25 & 500 & 2.815  & 0 & 9.661 & 0.118\\
-4 & 0.50 & 100 & 5.956  & 0 & 10.15 & 0.116\\
-5 & 0.50 & 300 & 2.325  & 0 & 9.967 & 0.119\\
-6 & 0.50 & 500 & 1.455  & 0 & 9.883 & 0.116\\
-7 & 1.0  & 100 & 2.573  & 0 & 11.87 & 0.120\\
-8 & 1.0  & 300 & 1.098  & 0 & 11.36 & 0.120\\
-9 & 1.0  & 500 & 0.7064 & 0 & 11.44 & 0.120\\
+1 & 0.25 & 100 & 12.79  & 0.015 & 16.56 & 0.144\\
+2 & 0.25 & 300 & 4.580  & 0 & 14.17 & 0.120\\
+3 & 0.25 & 500 & 2.654  & 0 & 9.892 & 0.084\\
+4 & 0.50 & 100 & 5.937  & 0 & 12.87 & 0.104\\
+5 & 0.50 & 300 & 2.279  & 0 & 13.72 & 0.108\\
+6 & 0.50 & 500 & 1.399  & 0 & 12.74 & 0.112\\
+7 & 1.0  & 100 & 2.810  & 0 & 15.05 & 0.116\\
+8 & 1.0  & 300 & 1.087  & 0 & 14.54 & 0.108\\
+9 & 1.0  & 500 & 0.6832 & 0 & 13.74 & 0.104\\
 \bottomrule
 \end{tabular}
 \caption{Cross entropy and classification error on the training and validation sets using different hyperparameter combinations. The average cross entropy and classification error is calculated from 20 re-runs for each condition, in order to reduce the affect of different initial weights. 
@@ -221,14 +221,14 @@ id & $learning\_rate$ & $num\_iterations$ & cross\_entropy & error & cross\_entr
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{logistic.jpg}
-\caption{Cross entropy on the training and validation sets, and the classification error on the validation set, using different hyperparameter combinations. The id is the same as Table \ref{table:hyper}. The classification error on the train set is ommited because all of these combinations got 0.
-\label{fig:logistic}}
+\includegraphics[width=\textwidth]{2-2-findhyper.eps}
+\caption{The cross entropy(top plot) and the classification error(bottom plot) on the training and validation sets, using different hyperparameter combination sets. The id is the same as Table \ref{table:hyper}.
+\label{fig:findhyper}}
 \end{figure}
 
-As for the hyperparameters, I set $learning\_rate=1$ and $num\_iterations=100$ at first. I got some Nan/Inf errors when the $learning\_rate$ gets 2 or bigger. I also tried to set $num\_iterations=500$, and the execution time is just 1 or 2 seconds, which is affordable. So I set different values of the $learning\_rate$ and $num\_iterations$ within this range, and run the logistic regression for 20 times for each hyperparameter set. The average result is shown in Table \ref{table:hyper} and Figure \ref{fig:logistic}.\\
+As for the hyperparameters, I set $learning\_rate=1$ and $num\_iterations=100$ at first. I got some Nan/Inf errors when the $learning\_rate$ gets 2 or bigger. I also tried to set $num\_iterations=500$, and the execution time is just 1 or 2 seconds, which is affordable. So I set different values of the $learning\_rate$ and $num\_iterations$ within this range, and run the logistic regression for 20 times for each hyperparameter set. The average result is shown in Table \ref{table:hyper} and Figure \ref{fig:findhyper}.\\
 
-We can observe that there are no significant differences in classification error of these hyperparameter combinations. Considering that we need the minimum cross entropy and classification error, I chose the 6th combination, in which $learning\_rate=0.5$ and $num\_iterations=500$. Its cross entropy on the validation set is 9.883, while its classification error is 0.116. Then I re-run the code on the test set for 20 times to compare their performance.\\
+We can observe that there are no significant differences in classification error of these hyperparameter combinations. Considering that we need the minimum cross entropy and classification error on the validation set, I chose the 3rd combination, in which $learning\_rate=0.25$ and $num\_iterations=500$. Its cross entropy on the validation set is 9.892, while its classification error is 0.084. Then I re-run the code on the test set for 20 times to compare their performance.\\
 
 \begin{table}[htbp]
 \centering
@@ -236,46 +236,46 @@ We can observe that there are no significant differences in classification error
 \toprule
 id & cross\_entropy(test) & classification\_error(test) \\
 \midrule
-1   & 11.66 & 0.08\\
-2   & 12.06 & 0.08\\
-3   & 12.28 & 0.08\\
-4   & 13.14 & 0.08\\
-5   & 13.09 & 0.08\\
+1   & 12.95 & 0.080\\
+2   & 12.43 & 0.060\\
+3   & 18.87 & 0.060\\
+4   & 12.41 & 0.080\\
+5   & 10.95 & 0.060\\
 6-20& ...   & ... \\
 \midrule
-Average & 12.39 & 0.08\\
+Average & 13.95 & 0.073\\
 \bottomrule
 \end{tabular}
-\caption{Cross entropy and classification error on the test set when $learning\_rate=0.5$ and $num\_iterations=500$. Test id No.6 to No.20 has been omitted in this table to save the space. 
+\caption{Cross entropy and classification error on the test set when $learning\_rate=0.25$ and $num\_iterations=500$. Test id No.6 to No.20 has been omitted in this table to save the space. 
 \label{table:hyper-final}}
 \end{table} 
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=\textwidth]{logistic-test-m.eps}
-\caption{Cross entropy and classification error on the test set when $learning\_rate=0.5$ and $num\_iterations=500$.
+\includegraphics[width=\textwidth]{logistic-test.eps}
+\caption{Cross entropy and classification error on the test set when $learning\_rate=0.25$ and $num\_iterations=500$.
 \label{fig:logistic-test}}
 \end{figure}
 
-I found that the averaged cross entropy on the test set became a little worse (9.883 to 12.39), but the classification error rate has decreased from 0.116 to 0.08. Though it is not perfect, but I think it is satisfying for this simple model.\\
+I found that the averaged cross entropy on the test set became a little worse (9.892 to 13.95), but the classification error rate has decreased from 0.084 to 0.073. Though it is not perfect, but I think it is satisfying for this simple model.\\
 
 Then let's observe the cross entropy changes as training progresses. I chose the same hyperparameter sets as above, and plotted two graphs for \texttt{mnist\_train} and \texttt{mnist\_train\_small}. Each plot show curves for the training set and validation set. I run my code for 5 times and marked the curves with different colors.\\
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=\textwidth]{train_.eps}
+\includegraphics[width=\textwidth]{ce-train.eps}
 \caption{The cross entropy for the training set and validation set changes as training progresses.
-\label{fig:train}}
+\label{fig:ce-train}}
 \end{figure}
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=\textwidth]{train_small.eps}
+\includegraphics[width=\textwidth]{ce-train-s.eps}
 \caption{The cross entropy for the small training set and validation set changes as training progresses.
-\label{fig:train-s}}
+\label{fig:ce-train-s}}
 \end{figure}
 
-From the two plots, we have two conclusions. First, we can conclude that the smaller training set leads to worse cross entropy. So we need to get more training data in practical. Second, the results change when we run the code several times. So we need to run multiple times and calculate the average performance to choose the best parameter settings.\\
+From Figure \ref{fig:ce-train} and Figure \ref{fig:ce-train-s}, we have two conclusions. First, we can conclude that the smaller training set leads to worse cross entropy. So we need to get more training data in practical. Second, the results change when we run the code several times. So we need to run multiple times and calculate the average performance to choose the best parameter settings.\\
 
 \subsection{Penalized Logistic Regression}
 
@@ -311,11 +311,11 @@ For each $\lambda$, it will re-run 20 times to balance the different initializat
 \label{fig:2-3-train-s-er}}
 \end{figure}
 
-The regular pattern seems not obvious from these graphs. However, from \texttt{mnist\_train}(Figure \ref{fig:2-3-train-ce} and Figure \ref{fig:2-3-train-er}), we can infer that the cross entropy and classification error on the validation set will get lower with $\lambda=0.5$ or $1$, though the training cross entropy is not satisfying. From the \texttt{mnist\_train\_small}(Figure \ref{fig:2-3-train-s-ce} and Figure \ref{fig:2-3-train-s-er}), we can also infer that the cross entropy and classification error will go down when increasing $\lambda$.\\
+The regular pattern seems not obvious from these graphs. However, from \texttt{mnist\_train}(Figure \ref{fig:2-3-train-ce} and Figure \ref{fig:2-3-train-er}), we can infer that the cross entropy and classification error on the validation set will get lower(better) with $\lambda=0.5$ or $1$. From the \texttt{mnist\_train\_small}(Figure \ref{fig:2-3-train-s-ce} and Figure \ref{fig:2-3-train-s-er}), we can also infer that the cross entropy and classification error will get lower at around $\lambda=0.5$ or $1$ or $2$.\\
 
 I will go with $\lambda^{*}=0.5$ based on the results from \texttt{mnist\_train}, since we have found that a training set with more samples is more convincing. That means the performance will get better(the curve will go down) at first, before $\lambda^{*}$, then the performance will get worse(the curve will go up).\\
 
-I think one of the reasons is that if $\lambda$ is too big comparing to $\mathbf{w}$, then it will lead to a bad modification for every iteration. As I mentioned above, I chose to use $0.1 * \texttt{randn}$ to initialize the weights because I got some Nan/Inf errors using the big $\mathbf{w}$ for initialization. So the $\mathbf{w}$ is small enough at first. Then we can explain that when $\lambda$ increase to 1 or 2, the performance gets worse because $\lambda$ is too big for $\mathbf{w}$, as shown in Figure \ref{fig:2-3-train-ce}.\\
+I think one of the reasons is that if $\lambda$ is too big comparing to $\mathbf{w}$, then it will lead to a bad modification for every iteration. As I mentioned above, I chose to use $0.1 * \texttt{randn}$ to initialize the weights because I got some Nan/Inf errors using the big $\mathbf{w}$ for initialization. So the $\mathbf{w}$ is small enough at first. Then we can explain that when $\lambda$ increase to 2 or more, the performance gets worse because $\lambda$ is too big for $\mathbf{w}$, as shown in Figure \ref{fig:2-3-train-ce}.\\
 
 \begin{figure}[htb]
 \centering
@@ -330,20 +330,40 @@ I think one of the reasons is that if $\lambda$ is too big comparing to $\mathbf
 \toprule
 $\lambda$ & cross\_entropy(test) & classification\_error(test) \\
 \midrule
-0.5 & 10.72 & 0.08\\
+0.5 & 11.89 & 0.080\\
 \bottomrule
 \end{tabular}
 \caption{The averaged cross entropy and classification error on the test set. 
 \label{table:test-final}}
 \end{table}
 
-Comparing the results with penalty (Table \ref{table:test-final}) to those without penalty (Table \ref{table:hyper-final}), the cross entropy has decreased from 12.39 to 10.72 while the classification error remains 0.08. \\
+Comparing the results with penalty (Table \ref{table:test-final}) to those without penalty (Table \ref{table:hyper-final}), the cross entropy decreased from 13.95 to 11.89 while the classification error increased from 0.073 to 0.080. \\
 
 So the results with penalty performs a little better, because it can avoid large weights and overfitting. I think we can get better performance if we train and validate with more values of $\lambda$. On the other hand, the logistic regression with penalty can be used to avoid large weights, however, since I initialized the weights using the \texttt{randn} function, it is small and normalized. So if I change another initialization method, the penalty will be more useful.\\
 
-\subsection{Naive Bayes}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=\textwidth]{2-3-test-s.eps}
+\caption{The cross entropy and classification error on the test set (trained with \texttt{mnist\_train\_small}) over multiple re-runs.
+\label{fig:2-3-test-s}}
+\end{figure}
 
-After training with \texttt{train\_nb.m}, the training and test accuracy calculated by \texttt{test\_nb} is reported in the Table 6.\\
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcc}
+\toprule
+$\lambda$ & cross\_entropy(test) & classification\_error(test) \\
+\midrule
+0.5 & 41.41 & 0.319\\
+\bottomrule
+\end{tabular}
+\caption{The averaged cross entropy and classification error (trained with \texttt{mnist\_train\_small}) on the test set. 
+\label{table:test-final-s}}
+\end{table}
+
+Let's check with the smaller training set(Figure \ref{fig:2-3-test-s} and Table \ref{table:test-final-s}). We can clearly see that the cross entropy and classification error is significantly high if we trained with a smaller dataset. That also implies that we need a larger training set to avoid problems including overfitting.\\
+
+\subsection{Naive Bayes}
 
 \begin{table}[htbp]
 \centering
@@ -357,6 +377,8 @@ accuracy & 0.8625 & 0.8000\\
 \caption{The training and test accuracy using the naive Bayes model. 
 \label{table:acc-nb}}
 \end{table}
+
+After training with \texttt{train\_nb.m}, the training and test accuracy calculated by \texttt{test\_nb} is reported in the Table \ref{table:acc-nb}.\\
 
 \begin{figure}[htb]
 \centering
@@ -375,12 +397,12 @@ The accuracy rate is not perfect, maybe we need to use a more complicated model 
 \centering
 \begin{tabular}{lcccc}
 \toprule
-\ & $k$-NN & Logistic Regression & Regularized Logistic Regression & Naive Bayes\\
+\ & $k$-NN & Logistic Regression & Penalized Logistic Regression & Naive Bayes\\
 \midrule
-accuracy & 0.94 & 0.92 & 0.92 & 0.80\\
+accuracy & 0.940 & 0.927 & 0.920 & 0.800\\
 \bottomrule
 \end{tabular}
-\caption{The accuracy of the digit classification task on the test set (trained with \texttt{mnist\_train}) using different models, including $k$-NN, Logistic Regression, Regularized Logistic Regression, and Naive Bayes. 
+\caption{The accuracy of the digit classification task on the test set (trained with \texttt{mnist\_train}) using different models, including $k$-NN, Logistic Regression, Penalized Logistic Regression, and Naive Bayes. 
 \label{table:acc-all}}
 \end{table}
 
@@ -390,15 +412,15 @@ It seems that $k$-NN performs best, and Naive Bayes performs worse. Then let's o
 \centering
 \begin{tabular}{lcccc}
 \toprule
-\ & $k$-NN & Logistic Regression & Regularized Logistic Regression & Naive Bayes\\
+\ & $k$-NN & Logistic Regression & Penalized Logistic Regression & Naive Bayes\\
 \midrule
-accuracy & 0.66 & 0.77 & 0.77 & 0.66\\
+accuracy & 0.660 & 0.675 & 0.681 & 0.660\\
 \bottomrule
 \end{tabular}
-\caption{The accuracy of the digit classification task on the test set (trained with \texttt{mnist\_train\_small}) using different models, including $k$-NN, Logistic Regression, Regularized Logistic Regression, and Naive Bayes. 
+\caption{The accuracy of the digit classification task on the test set (trained with \texttt{mnist\_train\_small}) using different models, including $k$-NN, Logistic Regression, Penalized Logistic Regression, and Naive Bayes. 
 \label{table:acc-s-all}}
 \end{table}
 
-This time the Logistic Regression seems to perform better, while $k$-NN became the worst. It can be implied that $k$-NN and Naive Bayes need more training data to get good performance. Of course the other methods also need lots of training data. This is what people do in practical: find more data, and train.\\
+This time the Penalized Logistic Regression seems to perform better, while $k$-NN became the worst. It can be implied that $k$-NN and Naive Bayes need more training data to get good performance. Of course the other methods also need lots of training data. This is what people do in practical: find more data, and train.\\
 
 \end{document}

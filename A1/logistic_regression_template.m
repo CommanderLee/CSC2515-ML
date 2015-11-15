@@ -9,7 +9,7 @@ load mnist_valid;
 
 %% TODO: Initialize hyperparameters.
 % Learning rate
-hyperparameters.learning_rate = 0.5;
+hyperparameters.learning_rate = 0.25;
 % Weight regularization parameter
 hyperparameters.weight_regularization = 1;
 % Number of iterations
@@ -56,10 +56,10 @@ for hyperID = 1:hyperNum
     ce_test = [];
     er_test = [];
     
-    multi_times = 5;
+    multi_times = 20;
     colors = ['r', 'b', 'k', 'g', 'c'];
     for mt = 1:multi_times
-        weights = randn(M+1, 1) * 0.1;
+        weights = randn(M+1, 1) * 0.5;
         
         y_train = zeros(1, hyperparameters.num_iterations);
         y_valid = zeros(1, hyperparameters.num_iterations);
@@ -112,14 +112,14 @@ for hyperID = 1:hyperNum
         %% Plot train & validation
 %         figure(mt);
 
-        x = 1:hyperparameters.num_iterations;
-        plot(x, y_train, strcat(colors(mt),'-'), x, y_valid, strcat(colors(mt), ':'));
-        xlabel('iteration');
-        ylabel('cross entropy');
-        legend('train','validation', -1);
+%         x = 1:hyperparameters.num_iterations;
+%         plot(x, y_train, strcat(colors(mt),'-'), x, y_valid, strcat(colors(mt), ':'));
+%         xlabel('iteration');
+%         ylabel('cross entropy');
+%         legend('train','validation', -1);
 %         title('mnist\_train\_small');
-        title('mnist\_train');
-        hold on;
+% %         title('mnist\_train');
+%         hold on;
     end
     results(hyperID, :) = [hyperparameters.learning_rate, hyperparameters.num_iterations, ...
         mean(ce_train), mean(er_train), mean(ce_valid), mean(er_valid)];
@@ -146,8 +146,10 @@ if testing
 %     set(HH2, 'color', 'r');
 %     set(H1, 'LineStyle', '-');
 %     set(H1, 'color', 'b');
+%     set(H1, 'Marker', 'o');
 %     set(H2, 'LineStyle', ':');
 %     set(H2, 'color', 'r');
+%     set(H2, 'Marker', '*');
 % 	legend([H1,H2], {'test\_cross\_entropy';'test\_classification\_error'});
 %     xlabel('test id(1 to 20)');
 end

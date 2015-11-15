@@ -9,7 +9,7 @@ load mnist_valid;
 
 %% TODO: Initialize hyperparameters.
 % Learning rate
-hyperparameters.learning_rate = 0.5;
+hyperparameters.learning_rate = 0.25;
 % Weight regularization parameter
 hyperparameters.weight_regularization = 0.5;
 % Number of iterations
@@ -57,7 +57,7 @@ for hyperID = 1:hyperNum
     er_test = zeros(1, multi_times);
 %     colors = ['r', 'b', 'k', 'g', 'c'];
     for mt = 1:multi_times
-        weights = randn(M+1, 1) * 0.1;
+        weights = randn(M+1, 1) * 0.5;
         
 %         y_train = zeros(1, hyperparameters.num_iterations);
 %         y_valid = zeros(1, hyperparameters.num_iterations);
@@ -127,21 +127,21 @@ disp(results);
 %% Plot train & valid
 x = 1:hyperNum;
 
-% figure(3);
+% figure(1);
 % plot(x, results(:,2), 'r.-', x, results(:,4), 'bo:');
 % xlabel('\lambda = 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0');
 % ylabel('cross entropy');
 % legend('train','validation', -1);
-% title('mnist\_train: cross entropy');
-% % title('mnist\_train\_small: cross entropy');
+% % title('mnist\_train: cross entropy');
+% title('mnist\_train\_small: cross entropy');
 % 
-% figure(4);
+% figure(2);
 % plot(x, results(:,3), 'r.-', x, results(:,5), 'bo:');
 % xlabel('\lambda = 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0');
 % ylabel('classification error');
 % legend('train','validation', -1);
-% title('mnist\_train: classification error');
-% % title('mnist\_train\_small: classification error');
+% % title('mnist\_train: classification error');
+% title('mnist\_train\_small: classification error');
 
 %% Plot test
 if testing
