@@ -20,7 +20,7 @@ clear test3;
 
 %% initialize the net structure.
 num_inputs = size(inputs_train, 1);
-num_hiddens = 1000;
+num_hiddens = 500;
 num_outputs = 1;
 
 %%% make random initial weights smaller, and include bias weights

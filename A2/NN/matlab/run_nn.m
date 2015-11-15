@@ -3,8 +3,8 @@
 init_nn();
 
 %% Change parameters
-eps = 0.02;
-momentum = 0.5;
+eps = 0.2;
+momentum = 0.3;
 
 %% Train
 test_num = 10;
