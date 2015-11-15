@@ -4,6 +4,8 @@
 
 train_CE_list = zeros(1, num_epochs);
 valid_CE_list = zeros(1, num_epochs);
+train_err_list = zeros(1, num_epochs);
+valid_err_list = zeros(1, num_epochs);
 
 start_epoch = total_epochs + 1;
 
@@ -21,6 +23,9 @@ for epoch = 1:num_epochs
   % Compute cross entropy
   train_CE = -mean(mean(target_train .* log(prediction) + (1 - target_train) .* log(1 - prediction)));
 
+  % Compute the classificatio error
+  train_err = sum(target_train ~= round(prediction)) / size(prediction, 2);
+  
   % Compute deriv
   dEbydlogit = prediction - target_train;
 
@@ -51,7 +56,8 @@ for epoch = 1:num_epochs
   logit = W2' * h_output + repmat(b2, 1, num_valid_cases);  % Input to output layer.
   prediction = 1 ./ (1 + exp(-logit));  % Output prediction.
   valid_CE = -mean(mean(target_valid .* log(prediction) + (1 - target_valid) .* log(1 - prediction)));
-
+  valid_err = sum(target_valid ~= round(prediction)) / size(prediction, 2);
+  
   %%%%%% Print out summary statistics at the end of the epoch %%%%%
   total_epochs = total_epochs + 1;
   if total_epochs == 1
@@ -59,8 +65,10 @@ for epoch = 1:num_epochs
   end
   train_CE_list(1, epoch) = train_CE;
   valid_CE_list(1, epoch) = valid_CE;
-  fprintf(1,'%d  Train CE=%f, Valid CE=%f\n',...
-            total_epochs, train_CE, valid_CE);
+  train_err_list(1, epoch) = train_err;
+  valid_err_list(1, epoch) = valid_err;
+  fprintf(1,'%d  Train CE=%f, Valid CE=%f, Train Error=%f, Valid Error=%f\n',...
+            total_epochs, train_CE, valid_CE, train_err, valid_err);
 end
 
 clf; 
@@ -68,13 +76,20 @@ if total_epochs > min_epochs_per_plot
   epochs = [1 : total_epochs];
 end
 
+% Note: the variable called 'train_errors' is actually confusing, since it
+% is using the cross entropy. But I didn't change it, just in case, to
+% avoid conflit in the future. To specify, I will use c_err instead. -Zhen
 %%%%%%%%% Plot the learning curve for the training set patterns %%%%%%%%%
 train_errors(1, start_epoch : total_epochs) = train_CE_list;
 valid_errors(1, start_epoch : total_epochs) = valid_CE_list;
+train_c_err(1, start_epoch : total_epochs) = train_err_list;
+valid_c_err(1, start_epoch : total_epochs) = valid_err_list;
   hold on, ...
   plot(epochs(1, 1 : total_epochs), train_errors(1, 1 : total_epochs), 'b'),...
   plot(epochs(1, 1 : total_epochs), valid_errors(1, 1 : total_epochs), 'g'),...
-  legend('Train', 'Test'),...
-  title('Cross Entropy vs Epoch'), ...
+  plot(epochs(1, 1 : total_epochs), train_c_err(1, 1 : total_epochs), 'k'),...
+  plot(epochs(1, 1 : total_epochs), valid_c_err(1, 1 : total_epochs), 'r'),...
+  legend('Train CE', 'Valid CE', 'Train Error', 'Valid Error'),...
+  title('Cross Entropy & Classification Error vs Epoch'), ...
   xlabel('Epoch'), ...
-  ylabel('Cross Entropy');
+  ylabel('Cross Entropy & Classification Error');
