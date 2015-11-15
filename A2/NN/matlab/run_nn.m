@@ -2,7 +2,14 @@
 %% Initialize
 init_nn();
 
+%% Change parameters
+eps = 0.02;
+momentum = 0.5;
+
 %% Train
-for i=1:10
+test_num = 10;
+for i=1:test_num
     train_nn();
 end
+fprintf('num_hiddens:%d: ', num_hiddens);
+test_nn();

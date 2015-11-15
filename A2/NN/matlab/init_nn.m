@@ -20,7 +20,7 @@ clear test3;
 
 %% initialize the net structure.
 num_inputs = size(inputs_train, 1);
-num_hiddens = 10;
+num_hiddens = 1000;
 num_outputs = 1;
 
 %%% make random initial weights smaller, and include bias weights
@@ -34,6 +34,7 @@ dW2 = zeros(size(W2));
 db1 = zeros(size(b1));
 db2 = zeros(size(b2));
 
+% Re-defined in the run_nn.m
 eps = 0.1;  %% the learning rate 
 momentum = 0.0;   %% the momentum coefficient
 
