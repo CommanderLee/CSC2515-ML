@@ -9,7 +9,9 @@ function visualize_digits(data_matrix)
 figure;
 
 n_examples = size(data_matrix, 2);
+row = round(sqrt(n_examples));
+col = round(n_examples / row) + 1;
 for i = 1 : n_examples
-    subplot(1, n_examples, i);
+    subplot(row, col, i);
     imshow(reshape(data_matrix(:,i), [16,16]), []);
 end
