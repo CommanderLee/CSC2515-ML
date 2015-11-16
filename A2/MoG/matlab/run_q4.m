@@ -27,7 +27,7 @@ for i = 1 : 4
 % Hints: you may want to use mogLogProb function
 %-------------------- Add your code here --------------------------------
     [inputs_train, inputs_valid, inputs_test, target_train, target_valid, target_test] = load_data();
-    % Training data set:
+    %% Training data set:
     % logP(x|d=1)
     [logProb_trainxd1] = mogLogProb(p1, mu1, vary1, inputs_train);
     % logP(x|d=2)
@@ -40,7 +40,7 @@ for i = 1 : 4
     errorTrain(i) = errorNum / size(inputs_train, 2);
     fprintf('i=%d, train: errorNum=%d, errorRate=%.4f\n', i, errorNum, errorTrain(i));
     
-    % Validation data set:
+    %% Validation data set:
     % logP(x|d=1)
     [logProb_validxd1] = mogLogProb(p1, mu1, vary1, inputs_valid);
     % logP(x|d=2)
@@ -53,7 +53,7 @@ for i = 1 : 4
     errorValidation(i) = errorNum / size(inputs_valid, 2);
     fprintf('     valid: errorNum=%d, errorRate=%.4f\n', errorNum, errorValidation(i));
     
-    % Testing data set:
+    %% Testing data set:
     % logP(x|d=1)
     [logProb_testxd1] = mogLogProb(p1, mu1, vary1, inputs_test);
     % logP(x|d=2)
@@ -67,13 +67,13 @@ for i = 1 : 4
     fprintf('     test: errorNum=%d, errorRate=%.4f\n', errorNum, errorTest(i));
 end
 
-% Plot the error rate
+%% Plot the error rate
 %-------------------- Add your code here --------------------------------
 figure(2);
 hold on;
-plot([1:4], errorTrain, 'g');
-plot([1:4], errorValidation, 'r');
-plot([1:4], errorTest, 'b');
+plot([1:4], errorTrain, 'g-*');
+plot([1:4], errorValidation, 'r-*');
+plot([1:4], errorTest, 'b-*');
 legend('training set', 'validation set', 'testing set');
 ylabel('classification error rate');
 xlabel('number of mixture components = 2, 5, 15, 25');
