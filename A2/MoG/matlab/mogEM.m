@@ -40,7 +40,7 @@ mn = mean(x,2); vr = std(x,[],2).^2;
 % iterations.
 mu = mn*ones(1,K)+randn(N,K).*(sqrt(vr)/randConst*ones(1,K));
 % k-means:
-[mu] = kmeans(x, K, 5);
+%[mu] = kmeans(x, K, 5);
 
 %------------------------------------------------------------------------
 vary = vr*ones(1,K)*2; vary = (vary>=minVary).*vary + (vary<minVary)*minVary;
